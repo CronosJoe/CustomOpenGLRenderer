@@ -5,6 +5,7 @@
 layout (location = 0) in vec4 position;
 layout (location = 1) in vec4 color;   // index 1 - the vertex color
 layout (location = 2) in vec2 uv;
+layout (location = 3) in vec3 normal; //taking in our normal
 
 // uniforms (shader program globals)
 layout (location = 0) uniform mat4 proj;
@@ -14,6 +15,7 @@ layout (location = 2) uniform mat4 model;
 // outputs to fragment shader
 out vec4 vertColor;
 out vec2 vUV;
+out vec3 vNormal;
 
 void main()
 {
@@ -24,4 +26,5 @@ void main()
   // world to camera       (view)
   // camera to clip        (proj)
   gl_Position = proj * view * model * position;
+  vNormal = mat3(transpose(inverse(model))) * normal;
 }

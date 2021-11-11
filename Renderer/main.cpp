@@ -13,13 +13,13 @@ int main()
 	vertex triVerts[] =
 	{
 		{ //vertex 0 -bottom left
-			{-.5f, -.5f, 0,1}, {1.0,0.0,0.0,1.0}, {0,0}
+			{-.5f, -.5f, 0,1}, {1.0,0.0,0.0,1.0}, {0,0}, {0,0,1}
 		},
 		{ //vertex 0 -bottom right
-			{.5f, -.5f, 0,1}, {0.0,1.0,0.0,1.0}, {1,0}
+			{.5f, -.5f, 0,1}, {0.0,1.0,0.0,1.0}, {1,0}, {0,0,1}
 		},
 		{ //vertex 0 -top middle
-			{0.0f, .5f, 0,1}, {0.0,0.0,1.0,1.0}, {0.5f,1.0f}
+			{0.0f, .5f, 0,1}, {0.0,0.0,1.0,1.0}, {0.5f,1.0f}, {0,0,1}
 		}
 	};
 	// bottom left => bottom right => top middle
@@ -93,12 +93,15 @@ int main()
 										  0.1f, //near plane
 										  100.0f); //far plane
 
+	glm::vec3 ambient(0.3f, 0.3f, 0.3f);
+	glm::vec3 sunLight(0, 0, -1);
+
 
 	while(!window.shouldClose())
 	{
 		//update
 		window.tick();
-		tri_model = glm::rotate(tri_model, 0.2f, glm::vec3(0, 1, 0));
+		tri_model = glm::rotate(tri_model, 0.09f, glm::vec3(0, 1, 0));
 		//draw
 		window.clear(); //clear previous frames stuff
 		
@@ -108,6 +111,8 @@ int main()
 		setUniform(basicShad, 2, tri_model);
 		
 		setUniform(basicShad, 3, checker, 0);
+		setUniform(basicShad, 4, ambient);
+		setUniform(basicShad, 5, sunLight);
 		//draw a shape
 		draw(basicShad, basicTriangleGeo);
 

@@ -1,6 +1,7 @@
 #include "renderer.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "STB/stb_image.h"
+#include "glm/ext.hpp"
 namespace aie 
 {
 	geometry aie::makeGeometry(const vertex* verts, GLsizei vertCount, const GLuint* const indicies, GLsizei indexCount)
@@ -24,9 +25,11 @@ namespace aie
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)0); //float is 4 bytes
 		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)16);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)32);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)32); 
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)40); // 10 previous flaots to get to the start of this data
 		//unbind the buffers when you're done with them
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -96,6 +99,10 @@ namespace aie
 
 		//assign that slot to the shader
 		glProgramUniform1i(shad.program, location, textureSlot);
+	}
+	void setUniform(const shader& shad, GLuint location, const glm::vec3& value)
+	{
+		glProgramUniform3fv(shad.program, location, 1, glm::value_ptr(value));
 	}
 	texture loadTexture(const char* imagePath)
 	{

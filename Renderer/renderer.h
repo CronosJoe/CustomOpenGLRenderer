@@ -9,6 +9,7 @@ namespace aie
         glm::vec4 pos;
         glm::vec4 color;
         glm::vec2 uv;
+        glm::vec3 normal;
     };
 
     struct geometry
@@ -37,6 +38,8 @@ namespace aie
 
     void setUniform(const shader& shad, GLuint location, const glm::mat4& value);
     void setUniform(const shader& shad, GLuint location, const texture& value, int textureSlot);
+    void setUniform(const shader& shad, GLuint location, const glm::vec3 &value);
+
 
     texture loadTexture(const char *imagePath);
 
